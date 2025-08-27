@@ -31,19 +31,37 @@ body {
     gap: 8px;
 }
 
+.logo-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: inherit;
+    transition: opacity 0.2s ease;
+}
+
+.logo-btn:hover {
+    opacity: 0.8;
+}
+
 .logo {
     font-size: 18px;
     font-weight: 600;
     color: #FFFFFF;
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 4px;
+    margin: 0;
+    line-height: 1;
 }
 
 .version {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 400;
     opacity: 0.7;
+    line-height: 1;
+    display: inline-flex;
+    align-items: baseline;
 }
 
 .dropdown-btn, .menu-btn {
@@ -54,6 +72,9 @@ body {
     padding: 6px;
     border-radius: 6px;
     transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .dropdown-btn:hover, .menu-btn:hover {
@@ -140,19 +161,45 @@ body {
     gap: 8px;
 }
 
-.voice-btn, .audio-btn {
+.send-btn {
     background: none;
     border: none;
-    color: #a0a0a0;
     cursor: pointer;
-    padding: 8px;
-    border-radius: 8px;
-    transition: background-color 0.2s, color 0.2s;
+    padding: 0;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    position: relative;
 }
 
-.voice-btn:hover, .audio-btn:hover {
-    background-color: #404040;
-    color: #FFFFFF;
+/* 未输入状态 - 暗灰色，禁用 */
+.send-btn:disabled {
+    color: #565656;
+    cursor: not-allowed;
+    background-color: transparent;
+}
+
+/* 有输入内容状态 - 白色背景，黑色箭头 */
+.send-btn:not(:disabled) {
+    color: #1a1a1a;
+    background-color: #FFFFFF;
+}
+
+/* 悬浮状态 - 保持白色背景 */
+.send-btn:not(:disabled):hover {
+    color: #1a1a1a;
+    background-color: #e5e5e5;
+    transform: scale(1.05);
+}
+
+/* 点击状态 */
+.send-btn:not(:disabled):active {
+    transform: scale(0.95);
+    background-color: #d0d0d0;
 }
 
 /* Feature Cards */
@@ -165,7 +212,7 @@ body {
 }
 
 .feature-card {
-    background-color: #2d2d2d;
+    background-color: transparent;
     border: 1px solid #404040;
     border-radius: 12px;
     padding: 20px;
@@ -174,7 +221,7 @@ body {
 }
 
 .feature-card:hover {
-    background-color: #363636;
+    background-color: rgba(255, 255, 255, 0.05);
     border-color: #565656;
 }
 
@@ -247,10 +294,6 @@ body {
     
     .input-actions {
         right: 8px;
-    }
-    
-    .voice-btn, .audio-btn {
-        padding: 6px;
     }
 }
 
@@ -327,11 +370,11 @@ button:focus-visible {
 }
 
 .message-assistant .message-content {
-    background-color: #444654;
+    background-color: transparent;
     color: #ffffff;
-    border-radius: 18px 18px 18px 4px;
-    padding: 12px 16px;
-    border: 1px solid #565869;
+    border-radius: 0;
+    padding: 0;
+    border: none;
 }
 
 .message-error .message-content {
@@ -345,14 +388,67 @@ button:focus-visible {
 .message-text {
     font-size: 16px;
     line-height: 1.4;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     word-wrap: break-word;
+}
+
+.message-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.message-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: #a0a0a0;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn:hover {
+    background-color: #2d2d2d;
+    color: #FFFFFF;
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+.action-btn.active {
+    color: #0084ff;
+    background-color: rgba(0, 132, 255, 0.1);
+}
+
+.like-btn.active {
+    color: #22c55e;
+    background-color: rgba(34, 197, 94, 0.1);
+}
+
+.dislike-btn.active {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
 }
 
 .message-time {
     font-size: 11px;
     opacity: 0.7;
     text-align: right;
+    flex-shrink: 0;
 }
 
 .message-user .message-time {
@@ -367,9 +463,9 @@ button:focus-visible {
 /* Typing Indicator */
 .typing-indicator .message-content {
     padding: 16px 20px;
-    background-color: #444654;
-    border: 1px solid #565869;
-    border-radius: 18px 18px 18px 4px;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
 }
 
 .typing-animation {
@@ -455,6 +551,268 @@ button:focus-visible {
     animation: pulse 1.5s infinite;
 }
 
+/* File Upload Modal */
+.file-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    backdrop-filter: blur(4px);
+}
+
+.file-modal {
+    background-color: #2d2d2d;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.file-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+    border-bottom: 1px solid #404040;
+}
+
+.file-modal-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.file-modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.add-files-btn {
+    background-color: #FFFFFF;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.add-files-btn:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-1px);
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    color: #a0a0a0;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-modal-btn:hover {
+    background-color: #404040;
+    color: #FFFFFF;
+}
+
+.file-modal-content {
+    padding: 32px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.file-drop-zone {
+    border: 2px dashed #565656;
+    border-radius: 12px;
+    padding: 64px 32px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.file-drop-zone:hover,
+.file-drop-zone.dragover {
+    border-color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.file-drop-icon {
+    color: #a0a0a0;
+    margin-bottom: 24px;
+}
+
+.file-drop-zone:hover .file-drop-icon,
+.file-drop-zone.dragover .file-drop-icon {
+    color: #FFFFFF;
+}
+
+.file-drop-text p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #a0a0a0;
+    margin: 0;
+    max-width: 500px;
+}
+
+.file-drop-text strong {
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+/* Files Display */
+.files-display {
+    margin-top: 16px;
+}
+
+.files-count {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.files-text {
+    font-size: 14px;
+    color: #FFFFFF;
+    font-weight: 500;
+}
+
+.files-number {
+    font-size: 12px;
+    color: #a0a0a0;
+}
+
+.files-icons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.file-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.file-icon.pdf {
+    background-color: #ff4757;
+}
+
+.file-icon.doc {
+    background-color: #2f5af0;
+}
+
+.file-icon.txt {
+    background-color: #747d8c;
+}
+
+.file-icon.image {
+    background-color: #2ed573;
+}
+
+.file-icon.code {
+    background-color: #ffa502;
+}
+
+.file-icon.default {
+    background-color: #57606f;
+}
+
+.file-icon svg {
+    width: 16px;
+    height: 16px;
+    color: white;
+}
+
+.uploaded-files {
+    margin-top: 24px;
+    border-top: 1px solid #404040;
+    padding-top: 24px;
+}
+
+.uploaded-file {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.uploaded-file:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.uploaded-file-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.uploaded-file-info {
+    flex: 1;
+}
+
+.uploaded-file-name {
+    font-size: 14px;
+    color: #FFFFFF;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.uploaded-file-size {
+    font-size: 12px;
+    color: #a0a0a0;
+}
+
+.uploaded-file-remove {
+    background: none;
+    border: none;
+    color: #a0a0a0;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.uploaded-file-remove:hover {
+    background-color: #404040;
+    color: #ff4757;
+}
+
 /* Mobile Responsive for Chat */
 @media (max-width: 768px) {
     .chat-container {
@@ -472,6 +830,30 @@ button:focus-visible {
     
     .message-text {
         font-size: 15px;
+    }
+    
+    .send-btn {
+        width: 28px;
+        height: 28px;
+        padding: 0;
+    }
+    
+    .file-modal {
+        width: 95%;
+        max-height: 90vh;
+    }
+    
+    .file-modal-header {
+        padding: 16px 20px;
+    }
+    
+    .file-modal-content {
+        padding: 20px;
+    }
+    
+    .file-drop-zone {
+        padding: 40px 20px;
+        min-height: 200px;
     }
 }
 
