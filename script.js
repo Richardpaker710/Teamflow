@@ -23,12 +23,16 @@ class ChatInterface {
 
         // Button interactions
         const sendBtn = document.querySelector('.send-btn');
+        const plusBtn = document.querySelector('.plus-btn');
         const logoBtn = document.querySelector('.logo-btn');
         const dropdownBtn = document.querySelector('.dropdown-btn');
         const menuBtn = document.querySelector('.menu-btn');
 
         if (sendBtn) {
             sendBtn.addEventListener('click', this.handleSendClick);
+        }
+        if (plusBtn) {
+            plusBtn.addEventListener('click', this.handlePlusClick);
         }
         if (logoBtn) {
             logoBtn.addEventListener('click', this.handleLogoClick);
@@ -147,6 +151,11 @@ class ChatInterface {
         if (input && input.value.trim()) {
             this.handleSendMessage(input.value.trim());
         }
+    }
+
+    handlePlusClick = (e) => {
+        e.preventDefault();
+        this.openFileModal();
     }
 
     handleLogoClick = (e) => {
@@ -833,8 +842,8 @@ document.addEventListener('DOMContentLoaded', () => {
 // Add some additional CSS via JavaScript for dynamic styles
 const additionalStyles = `
     .input-wrapper.focused .chat-input {
-        border-color: #565656;
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+        border-color: #404040;
+        box-shadow: none;
     }
     
     .feature-card {

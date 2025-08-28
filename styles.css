@@ -132,7 +132,7 @@ body {
 
 .chat-input {
     width: 100%;
-    padding: 16px 80px 16px 20px;
+    padding: 16px 80px 16px 56px;
     background-color: #2d2d2d;
     border: 1px solid #404040;
     border-radius: 24px;
@@ -148,8 +148,37 @@ body {
 }
 
 .chat-input:focus {
-    border-color: #565656;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+    border-color: #404040;
+    box-shadow: none;
+}
+
+.plus-btn {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #a0a0a0;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 1;
+}
+
+.plus-btn:hover {
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.plus-btn:active {
+    transform: translateY(-50%) scale(0.95);
 }
 
 .input-actions {
@@ -294,6 +323,12 @@ body {
     
     .input-actions {
         right: 8px;
+    }
+    
+    .plus-btn {
+        left: 12px;
+        width: 20px;
+        height: 20px;
     }
 }
 
