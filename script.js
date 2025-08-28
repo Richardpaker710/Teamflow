@@ -2,6 +2,7 @@
 
 class ChatInterface {
     constructor() {
+        this.sidebarOpen = true; // Default to open
         this.init();
     }
 
@@ -9,6 +10,7 @@ class ChatInterface {
         this.setupEventListeners();
         this.setupKeyboardShortcuts();
         this.setupAnimations();
+        this.setupSidebar();
     }
 
     setupEventListeners() {
@@ -27,6 +29,7 @@ class ChatInterface {
         const logoBtn = document.querySelector('.logo-btn');
         const dropdownBtn = document.querySelector('.dropdown-btn');
         const menuBtn = document.querySelector('.menu-btn');
+        const sidebarToggle = document.querySelector('.sidebar-toggle');
 
         if (sendBtn) {
             sendBtn.addEventListener('click', this.handleSendClick);
@@ -43,6 +46,9 @@ class ChatInterface {
         if (menuBtn) {
             menuBtn.addEventListener('click', this.handleMenuClick);
         }
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', this.handleSidebarToggle);
+        }
 
         // Feature cards
         const featureCards = document.querySelectorAll('.feature-card');
@@ -51,8 +57,17 @@ class ChatInterface {
             card.addEventListener('mouseenter', this.handleCardHover);
         });
 
+        // Sidebar navigation
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', this.handleNavItemClick);
+        });
+
         // Window resize handling
         window.addEventListener('resize', this.handleResize);
+        
+        // Close sidebar on mobile when clicking outside
+        document.addEventListener('click', this.handleOutsideClick);
     }
 
     setupKeyboardShortcuts() {
@@ -158,6 +173,11 @@ class ChatInterface {
         this.openFileModal();
     }
 
+    handleSidebarToggle = (e) => {
+        e.preventDefault();
+        this.toggleSidebar();
+    }
+
     handleLogoClick = (e) => {
         e.preventDefault();
         this.returnToHome();
@@ -199,6 +219,140 @@ class ChatInterface {
         // Handle responsive adjustments if needed
         const width = window.innerWidth;
         document.body.classList.toggle('mobile', width < 768);
+        
+        // Handle sidebar on mobile
+        if (width < 768) {
+            this.setupMobileSidebar();
+        } else {
+            this.setupDesktopSidebar();
+        }
+    }
+
+    handleNavItemClick = (e) => {
+        const navItem = e.currentTarget;
+        const text = navItem.querySelector('span')?.textContent;
+        
+        // Remove active class from all nav items
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        
+        // Add active class to clicked item
+        navItem.classList.add('active');
+        
+        // Handle different navigation actions
+        this.handleNavigationAction(text);
+    }
+
+    // Sidebar functionality
+    setupSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const mainWrapper = document.querySelector('.main-wrapper');
+        
+        // Set initial state
+        if (this.sidebarOpen) {
+            sidebar.classList.remove('collapsed');
+            mainWrapper.classList.remove('sidebar-collapsed');
+        } else {
+            sidebar.classList.add('collapsed');
+            mainWrapper.classList.add('sidebar-collapsed');
+        }
+        
+        // Handle responsive behavior
+        this.handleResize();
+    }
+
+    toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const mainWrapper = document.querySelector('.main-wrapper');
+        const isMobile = window.innerWidth < 768;
+        
+        this.sidebarOpen = !this.sidebarOpen;
+        
+        if (isMobile) {
+            // Mobile behavior
+            if (this.sidebarOpen) {
+                sidebar.classList.add('open');
+                sidebar.classList.remove('collapsed');
+            } else {
+                sidebar.classList.remove('open');
+                sidebar.classList.add('collapsed');
+            }
+        } else {
+            // Desktop behavior
+            if (this.sidebarOpen) {
+                sidebar.classList.remove('collapsed');
+                mainWrapper.classList.remove('sidebar-collapsed');
+            } else {
+                sidebar.classList.add('collapsed');
+                mainWrapper.classList.add('sidebar-collapsed');
+            }
+        }
+    }
+
+    setupMobileSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const mainWrapper = document.querySelector('.main-wrapper');
+        
+        // On mobile, collapsed means completely hidden
+        if (this.sidebarOpen) {
+            sidebar.classList.remove('collapsed');
+            sidebar.classList.add('open');
+            mainWrapper.classList.remove('sidebar-collapsed');
+        } else {
+            sidebar.classList.add('collapsed');
+            sidebar.classList.remove('open');
+            mainWrapper.classList.add('sidebar-collapsed');
+        }
+    }
+
+    setupDesktopSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const mainWrapper = document.querySelector('.main-wrapper');
+        
+        sidebar.classList.remove('open');
+        
+        if (this.sidebarOpen) {
+            sidebar.classList.remove('collapsed');
+            mainWrapper.classList.remove('sidebar-collapsed');
+        } else {
+            sidebar.classList.add('collapsed');
+            mainWrapper.classList.add('sidebar-collapsed');
+        }
+    }
+
+    handleNavigationAction(actionType) {
+        switch(actionType) {
+            case 'New project':
+                this.showTemporaryMessage('Creating new project...');
+                break;
+            case 'Search chats':
+                this.showTemporaryMessage('Opening search...');
+                break;
+            case 'Teammates':
+                this.showTemporaryMessage('Loading teammates...');
+                break;
+            default:
+                if (actionType && (actionType.startsWith('Project') || actionType.includes('Campaign') || actionType.includes('Collaboration') || actionType.includes('Sprint'))) {
+                    this.showTemporaryMessage(`Opening ${actionType}...`);
+                }
+        }
+    }
+
+    handleOutsideClick = (e) => {
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.querySelector('.sidebar-toggle');
+        const isMobile = window.innerWidth < 768;
+        
+        // Only handle on mobile when sidebar is open
+        if (isMobile && this.sidebarOpen) {
+            // Check if click is outside sidebar and not on the toggle button
+            if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                this.sidebarOpen = false;
+                sidebar.classList.remove('open');
+                sidebar.classList.add('collapsed');
+            }
+        }
     }
 
     // Feature implementations
