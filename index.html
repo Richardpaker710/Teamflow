@@ -53,30 +53,7 @@
                     <span>History</span>
                 </div>
                 <div class="history-list" id="historyList">
-                    <button class="nav-item history-item">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/>
-                        </svg>
-                        <span>Project Alpha</span>
-                    </button>
-                    <button class="nav-item history-item">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/>
-                        </svg>
-                        <span>Marketing Campaign</span>
-                    </button>
-                    <button class="nav-item history-item">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/>
-                        </svg>
-                        <span>Team Collaboration</span>
-                    </button>
-                    <button class="nav-item history-item">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/>
-                        </svg>
-                        <span>Development Sprint</span>
-                    </button>
+                    <!-- History items will be dynamically added here when users create projects -->
                 </div>
             </div>
         </nav>
@@ -162,10 +139,18 @@
                     <div class="files-icons"></div>
                 </div>
             </div>
-            <div class="feature-card">
+            <div class="feature-card instructions-card">
                 <h3>Add instructions</h3>
                 <p>Tailor the way ChatGPT responds in this project</p>
+                <div class="instructions-preview" style="display: none;">
+                    <div class="instructions-content"></div>
+                </div>
             </div>
+        </div>
+
+        <!-- Chat History Section -->
+        <div class="chat-history-section" id="chatHistorySection">
+            <!-- History items will be dynamically added here -->
         </div>
     </main>
 
@@ -208,6 +193,323 @@
 
     <!-- Hidden file input -->
     <input type="file" id="fileInput" multiple accept="*/*" style="display: none;">
+    
+    <!-- Context Menu for History Items -->
+    <div class="context-menu" id="contextMenu" style="display: none;">
+        <div class="context-menu-item" data-action="rename">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+            </svg>
+            <span>Rename project</span>
+        </div>
+        <div class="context-menu-item context-menu-delete" data-action="delete">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+            </svg>
+            <span>Delete project</span>
+        </div>
+    </div>
+
+    <!-- Chat History Context Menu -->
+    <div class="chat-history-context-menu" id="chatHistoryContextMenu" style="display: none;">
+        <div class="chat-history-context-menu-item" data-action="rename">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+            </svg>
+            <span>Rename chat</span>
+        </div>
+        <div class="chat-history-context-menu-item" data-action="share">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+            </svg>
+            <span>Share chat</span>
+        </div>
+        <div class="chat-history-context-menu-item delete" data-action="delete">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+            </svg>
+            <span>Delete chat</span>
+        </div>
+    </div>
+
+    <!-- User Menu -->
+    <div class="user-menu" id="userMenu" style="display: none;">
+        <div class="user-menu-header">
+            <div class="user-info">
+                <div class="user-avatar-large">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+                <div class="user-details">
+                    <div class="user-name" id="userDisplayName">User Account</div>
+                    <div class="user-email" id="userDisplayEmail">user@teamflow.com</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="user-menu-section">
+            <div class="user-menu-item" data-action="profile">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                <span>My profile</span>
+            </div>
+            <div class="user-menu-item" data-action="settings">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.82,11.69,4.82,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+                </svg>
+                <span>Settings</span>
+            </div>
+        </div>
+        
+        <div class="user-menu-divider"></div>
+        
+        <div class="user-menu-section">
+            <div class="user-menu-item" data-action="help">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+                </svg>
+                <span>Help & support</span>
+            </div>
+            <div class="user-menu-item" data-action="logout">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                </svg>
+                <span>Log out</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Modal -->
+    <div class="auth-modal-overlay" id="welcomeModal" style="display: block;">
+        <div class="auth-modal welcome-modal">
+            <div class="auth-modal-content">
+                <h1 class="welcome-title">Welcome back</h1>
+                <p class="welcome-subtitle">Log in or sign up to get smarter responses, upload files and images, and more.</p>
+                
+                <div class="auth-buttons">
+                    <button class="auth-btn primary" id="showLoginBtn">
+                        Log in
+                    </button>
+                    <button class="auth-btn secondary" id="showSignupBtn">
+                        Sign up for free
+                    </button>
+                </div>
+                
+                <div class="auth-footer">
+                    <button class="stay-logged-out-btn" id="stayLoggedOutBtn">
+                        Stay logged out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="auth-modal-overlay" id="loginModal" style="display: none;">
+        <div class="auth-modal login-modal">
+            <div class="auth-modal-header">
+                <button class="back-btn" id="backToWelcomeFromLogin">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                    </svg>
+                </button>
+                <h2>Log in</h2>
+                <button class="close-btn" id="closeLoginModal">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="auth-modal-content">
+                <form class="auth-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email address</label>
+                        <input type="email" id="loginEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" name="password" required>
+                    </div>
+                    <button type="submit" class="auth-btn primary full-width">
+                        Log in
+                    </button>
+                </form>
+                
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+                
+                <button class="auth-btn google-btn" id="googleLoginBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Continue with Google
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="auth-modal-overlay" id="signupModal" style="display: none;">
+        <div class="auth-modal signup-modal">
+            <div class="auth-modal-header">
+                <button class="back-btn" id="backToWelcomeFromSignup">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                    </svg>
+                </button>
+                <h2>Create your account</h2>
+                <button class="close-btn" id="closeSignupModal">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="auth-modal-content">
+                <form class="auth-form" id="signupForm">
+                    <div class="form-group">
+                        <label for="signupEmail">Email address</label>
+                        <input type="email" id="signupEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+                    <button type="submit" class="auth-btn primary full-width">
+                        Create account
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Creation Modal -->
+    <div class="project-modal-overlay" id="projectModal" style="display: none;">
+        <div class="project-modal">
+            <div class="project-modal-header">
+                <h2>Project name</h2>
+                <div class="project-modal-controls">
+                    <button class="project-settings-btn" id="projectSettingsBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.82,11.69,4.82,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+                        </svg>
+                    </button>
+                    <button class="close-btn" id="closeProjectModal">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="project-modal-content">
+                <div class="project-name-input-container">
+                    <div class="emoji-selector" id="emojiSelector">
+                        <span class="selected-emoji" id="selectedEmoji">😊</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7 10l5 5 5-5z"/>
+                        </svg>
+                    </div>
+                    <input type="text" id="projectNameInput" placeholder="Copenhagen Trip" class="project-name-input">
+                </div>
+                
+                <div class="project-categories">
+                    <div class="category-btn" data-category="investing" data-emoji="💰">
+                        <span class="category-emoji">💰</span>
+                        <span class="category-name">Investing</span>
+                    </div>
+                    <div class="category-btn" data-category="homework" data-emoji="🎓">
+                        <span class="category-emoji">🎓</span>
+                        <span class="category-name">Homework</span>
+                    </div>
+                    <div class="category-btn" data-category="writing" data-emoji="✍️">
+                        <span class="category-emoji">✍️</span>
+                        <span class="category-name">Writing</span>
+                    </div>
+                    <div class="category-btn" data-category="health" data-emoji="🏥">
+                        <span class="category-emoji">🏥</span>
+                        <span class="category-name">Health</span>
+                    </div>
+                    <div class="category-btn" data-category="travel" data-emoji="✈️">
+                        <span class="category-emoji">✈️</span>
+                        <span class="category-name">Travel</span>
+                    </div>
+                </div>
+                
+                <div class="project-description">
+                    <div class="description-icon">💡</div>
+                    <div class="description-text">
+                        <p>Projects keep chats, files, and custom instructions in one place. Use them for ongoing work, or just to keep things tidy.</p>
+                    </div>
+                </div>
+                
+                <div class="project-modal-actions">
+                    <button class="project-btn create" id="createProjectBtn">Create project</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emoji Picker Dropdown -->
+    <div class="emoji-picker" id="emojiPicker" style="display: none;">
+        <div class="emoji-grid">
+            <span class="emoji-option" data-emoji="😊">😊</span>
+            <span class="emoji-option" data-emoji="🚀">🚀</span>
+            <span class="emoji-option" data-emoji="💡">💡</span>
+            <span class="emoji-option" data-emoji="📚">📚</span>
+            <span class="emoji-option" data-emoji="🎯">🎯</span>
+            <span class="emoji-option" data-emoji="🌟">🌟</span>
+            <span class="emoji-option" data-emoji="🔥">🔥</span>
+            <span class="emoji-option" data-emoji="⚡">⚡</span>
+            <span class="emoji-option" data-emoji="🎨">🎨</span>
+            <span class="emoji-option" data-emoji="🎵">🎵</span>
+            <span class="emoji-option" data-emoji="🏆">🏆</span>
+            <span class="emoji-option" data-emoji="💰">💰</span>
+            <span class="emoji-option" data-emoji="🎓">🎓</span>
+            <span class="emoji-option" data-emoji="✍️">✍️</span>
+            <span class="emoji-option" data-emoji="🏥">🏥</span>
+            <span class="emoji-option" data-emoji="✈️">✈️</span>
+        </div>
+    </div>
+
+    <!-- Instructions Modal -->
+    <div class="instructions-modal-overlay" id="instructionsModal" style="display: none;">
+        <div class="instructions-modal">
+            <div class="instructions-modal-header">
+                <h2>Instructions</h2>
+                <button class="close-btn" id="closeInstructionsModal">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="instructions-modal-content">
+                <div class="instructions-description">
+                    <h3>How can ChatGPT best help you with this project?</h3>
+                    <p>You can ask ChatGPT to focus on certain topics, or ask it to use a certain tone or format for responses.</p>
+                </div>
+                <div class="instructions-textarea-container">
+                    <textarea 
+                        id="instructionsTextarea" 
+                        placeholder='e.g. "Respond in Spanish. Reference the latest JavaScript documentation. Keep answers short and focused."'
+                        rows="8"
+                    ></textarea>
+                </div>
+                <div class="instructions-modal-actions">
+                    <button class="instructions-btn cancel" id="cancelInstructions">Cancel</button>
+                    <button class="instructions-btn save" id="saveInstructions">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
     
     </div> <!-- Close main-wrapper -->
 
